@@ -35,8 +35,8 @@ const Container = styled.div`
 const TECAJ = 7.53450; 
 
 export default function Converter() {
-    const [racun, setRacun] = useState(0);
-    const [cash, setCash] = useState(0); 
+    const [racun, setRacun] = useState<number>();
+    const [cash, setCash] = useState<number>(); 
     const [toReturn, setToReturn] = useState(0); 
     const [error, setError] = useState<string>();
 
@@ -61,6 +61,9 @@ export default function Converter() {
     }
 const calculate: FormEventHandler = (e) => {
     e.preventDefault(); 
+    if(!racun || !cash) {
+      return; 
+    }
     let iznosUHrk = racun * TECAJ; 
     let ostatak = cash - iznosUHrk; 
     if(ostatak > 0) {
@@ -70,7 +73,7 @@ const calculate: FormEventHandler = (e) => {
     }
 }
 
-const racunUKunama = (racun * TECAJ)
+const racunUKunama = ((racun ? racun : NaN) * TECAJ)
   return (
     <Wrapper>
         <form onSubmit={calculate}>
