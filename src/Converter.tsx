@@ -88,14 +88,14 @@ const racunUKunama = ((racun ? Number.parseFloat(racun) : NaN) * TECAJ)
       </TextContainer>
       <TextContainer>
         <label htmlFor="amount">Iznos (€)</label>
-        <input name="amount" autoComplete="off" type="number" onChange={handleChange} value={racun} step="any"/>
+        <input name="amount" autoComplete="off" type="number" onChange={handleChange} value={racun} step="any" inputMode="decimal"/>
       </TextContainer>
       {!isNaN(racunUKunama) && <TextContainer>
         <p>Iznos u kunama: <span>{racunUKunama.toFixed(2)}</span></p>
       </TextContainer>}
       <TextContainer>
         <label htmlFor="cash">Iznos gotovine (HRK)</label>
-        <input name="cash" autoComplete="off" type="number" onChange={handleChange} value={cash} step="any"/>
+        <input name="cash" autoComplete="off" type="number" onChange={handleChange} value={cash} step="any" inputMode="decimal"/>
       </TextContainer>
       <TextContainer>
         <span>{error}</span>
