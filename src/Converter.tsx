@@ -35,8 +35,8 @@ const Container = styled.div`
 const TECAJ = 7.53450; 
 
 export default function Converter() {
-    const [racun, setRacun] = useState<number>();
-    const [cash, setCash] = useState<number>(); 
+    const [racun, setRacun] = useState<string>();
+    const [cash, setCash] = useState<string>(); 
     const [toReturn, setToReturn] = useState(0); 
     const [error, setError] = useState<string>();
 
@@ -44,15 +44,14 @@ export default function Converter() {
         let parsedNumber = Number.parseFloat(e.target.value)
         if(isNaN(parsedNumber)){
             setError("Uneseni iznosi moraju biti u brojčanoj vrijednosti, npr. 12,6");
-            
         }
         setError(undefined);
         switch (e.target.name) {
             case "amount":
-                setRacun(parsedNumber)
+                setRacun(e.target.value)
                 break;
                 case "cash":
-                    setCash(parsedNumber)
+                    setCash(e.target.value)
                     break;
         
             default:
@@ -61,11 +60,18 @@ export default function Converter() {
     }
 const calculate: FormEventHandler = (e) => {
     e.preventDefault(); 
+    setError(undefined); 
     if(!racun || !cash) {
       return; 
     }
-    let iznosUHrk = racun * TECAJ; 
-    let ostatak = cash - iznosUHrk; 
+    let parsedRacun = Number.parseFloat(racun);
+    let parsedCash = Number.parseFloat(cash); 
+    if(isNaN(parsedRacun) ||isNaN(parsedCash)){
+      setError("Format unesenih iznosa mora biti u formatu npr. 12.58")
+      return; 
+    }
+    let iznosUHrk = parsedRacun * TECAJ; 
+    let ostatak = parsedCash - iznosUHrk; 
     if(ostatak > 0) {
         setToReturn(ostatak / TECAJ);
     } else {
@@ -73,7 +79,7 @@ const calculate: FormEventHandler = (e) => {
     }
 }
 
-const racunUKunama = ((racun ? racun : NaN) * TECAJ)
+const racunUKunama = ((racun ? Number.parseFloat(racun) : NaN) * TECAJ)
   return (
     <Wrapper>
         <form onSubmit={calculate}>
