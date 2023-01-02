@@ -1,5 +1,9 @@
 import React, { ChangeEvent, FormEventHandler, MouseEventHandler, useState } from 'react'
 import styled from 'styled-components'
+import Alert from 'react-bootstrap/Alert'
+import Form from "react-bootstrap/Form"
+import Card from "react-bootstrap/Card"
+import Button from 'react-bootstrap/esm/Button'
 
 const Wrapper = styled.div`
     margin: 0;
@@ -82,33 +86,61 @@ const calculate: FormEventHandler = (e) => {
 const racunUKunama = ((racun ? Number.parseFloat(racun) : NaN) * TECAJ)
   return (
     <Wrapper>
-        <form onSubmit={calculate}>
-      <TextContainer>
-        <p>Unesite iznos računa u eurima</p>
-      </TextContainer>
-      <TextContainer>
-        <label htmlFor="amount">Iznos (€)</label>
-        <input name="amount" autoComplete="off" type="number" onChange={handleChange} value={racun} step="any" inputMode="decimal"/>
-      </TextContainer>
-      {!isNaN(racunUKunama) && <TextContainer>
-        <p>Iznos u kunama: <span>{racunUKunama.toFixed(2)}</span></p>
-      </TextContainer>}
-      <TextContainer>
-        <label htmlFor="cash">Iznos gotovine (HRK)</label>
-        <input name="cash" autoComplete="off" type="number" onChange={handleChange} value={cash} step="any" inputMode="decimal"/>
-      </TextContainer>
-      <TextContainer>
-        <span>{error}</span>
-      </TextContainer>
-      <TextContainer>
-        <button type="submit">Izračunaj</button>
-      </TextContainer>
-      <Container>
-        <p>
-          Rezultat: <span>{toReturn.toFixed(2)}</span> €
-        </p>
-      </Container>
-      </form>
+      <Card>
+        <Card.Body>
+          <Card.Title>Izračun ostatka u EUR</Card.Title>
+          <Card.Subtitle>
+            Unesite iznos računa u eurima i iznos koji ste dali u kunama, a
+            aplikacija će vam izračunati iznos ostatka u eurima.
+          </Card.Subtitle>
+          <Form onSubmit={calculate}>
+            <TextContainer>
+              <p>Unesite iznos računa u eurima</p>
+            </TextContainer>
+            <Form.Group>
+              <Form.Label htmlFor="amount">Iznos (€)</Form.Label>
+              <Form.Control
+                name="amount"
+                autoComplete="off"
+                type="number"
+                onChange={handleChange}
+                value={racun}
+                step="any"
+                inputMode="decimal"
+              />
+            </Form.Group>
+            {!isNaN(racunUKunama) && (
+              <TextContainer>
+                <p>
+                  Iznos u kunama: <span>{racunUKunama.toFixed(2)}</span>
+                </p>
+              </TextContainer>
+            )}
+            <Form.Group className="mb-3" controlId="cash">
+              <Form.Label htmlFor="cash">Iznos gotovine (HRK)</Form.Label>
+              <Form.Control
+                name="cash"
+                autoComplete="off"
+                type="number"
+                onChange={handleChange}
+                value={cash}
+                step="any"
+                inputMode="decimal"
+              />
+            </Form.Group>
+
+            {error && <Alert variant="warning">{error}</Alert>}
+
+            <Button type="submit">Izračunaj</Button>
+
+            <Container>
+              <p>
+                Rezultat: <span>{toReturn.toFixed(2)}</span> €
+              </p>
+            </Container>
+          </Form>
+        </Card.Body>
+      </Card>
     </Wrapper>
   );
 }

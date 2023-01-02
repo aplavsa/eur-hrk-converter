@@ -1,6 +1,8 @@
 import React from 'react';
 import styled, { ThemeProvider } from "styled-components"
 import Converter from './Converter';
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
 const Header = styled.header`
   display: flex;
   justify-content: center;
@@ -27,7 +29,7 @@ const MainContainer = styled.div`
   max-width:20rem;
   width: 100%;
   min-height: 20rem;
-  background-color: ${props => props.theme.accentBackgroundAlt};
+  /* background-color: ${props => props.theme.accentBackgroundAlt}; */
   
 `
 
@@ -43,9 +45,20 @@ function App() {
           background: "#dae3e5ff",
         }}
       >
-        <Header>
-          <HeaderTitle>EUR Converter</HeaderTitle>
-        </Header>
+        <Navbar bg="dark" variant="dark">
+        <Container className='justify-content-center'>
+          <Navbar.Brand href="#home">
+            <img
+              alt=""
+              src={process.env.PUBLIC_URL +"/logo192.png"}
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}
+            EUR/HRK pretvarač
+          </Navbar.Brand>
+        </Container>
+      </Navbar>
         <Main>
           <MainContainer>
             <Converter/>
